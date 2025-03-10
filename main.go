@@ -16,8 +16,13 @@ import (
 // function to allow users choose an option
 func promptOption() {
 	reader := bufio.NewReader(os.Stdin)
-	opt, _ := helper.GetInput("Please Choose an option (1- Make a Payment 2- Request Payment Link 3- Check Transaction Status 4- Airtime Transfer):", reader)
+	opt, _ := helper.GetInput("Please Choose an option (1- Make a Payment 2- Request Payment Link 3- Check Transaction Status 4- Airtime Transfer or type exit to quit):", reader)
 
+	//handle exit case
+	if opt == "exit" {
+		fmt.Println("Exiting... Goodbye 👋")
+		os.Exit(0)
+	}
 	//env files
 	token, url := loadEnv()
 	//convert the chosen option from string to int
@@ -27,17 +32,18 @@ func promptOption() {
 	// }
 	switch opt {
 	case "1":
-		fmt.Println("You choosed option 1")
 		client.RequestPayment(token, url)
+		promptOption()
 	case "2":
-		fmt.Println("You choosed option 2")
 		client.PaymentLink(token, url)
+		promptOption()
 	case "3":
-		fmt.Println("You choosed option 3")
 		status := client.CheckTransationStatus(token, url)
 		fmt.Println("Transaction Status:", status)
+		promptOption()
 	case "4":
 		fmt.Println("This feature is not supported")
+		promptOption()
 	default:
 		fmt.Println("Invalid option, please try again...")
 		promptOption()
