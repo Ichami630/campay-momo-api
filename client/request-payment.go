@@ -30,6 +30,11 @@ func RequestPayment(token string, baseUrl string) {
 	}
 
 	amount, _ := helper.GetInput("Please enter the amount: ", reader)
+	//validate amount
+	if !helper.IsDigitisOnly(amount) {
+		fmt.Println("Invalid amount. Must be numeric")
+		amount, _ = helper.GetInput("Please enter the amount: ", reader)
+	}
 	description, _ := helper.GetInput("Payment Description: ", reader)
 	//encode body data
 	postBody, _ := json.Marshal(map[string]string{
