@@ -74,8 +74,9 @@ func RequestPayment(token string, baseUrl string) {
 
 	fmt.Println("Transation initiated, waiting for confirmation...")
 	maxAttemps := 6 //max retries before giving up
+	var status string
 	for i := 1; i <= maxAttemps; i++ {
-		status := CheckTransationStatus(token, baseUrl, reference.Reference)
+		status = CheckTransationStatus(token, baseUrl, reference.Reference)
 
 		if status == "PENDING" {
 			fmt.Println("Transaction status PENDING... still waiting...")
@@ -83,13 +84,12 @@ func RequestPayment(token string, baseUrl string) {
 			continue
 		}
 
-		//callback
-		if i == maxAttemps {
-			fmt.Println("PENDING Transaction, No Action, Reference Number: ", reference.Reference)
-		}
-
 		fmt.Println("Transaction ", status)
 		break
+	}
+	//callback
+	if status == "PENDING" {
+		fmt.Println("PENDING Transaction, No Action, Reference Number: ", reference.Reference)
 	}
 
 }

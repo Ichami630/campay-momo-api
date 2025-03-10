@@ -31,6 +31,7 @@ func promptOption() {
 		client.RequestPayment(token, url)
 	case "2":
 		fmt.Println("You choosed option 2")
+		client.PaymentLink(token, url)
 	case "3":
 		fmt.Println("You choosed option 3")
 		status := client.CheckTransationStatus(token, url)
